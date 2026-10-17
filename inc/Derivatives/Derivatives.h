@@ -40,7 +40,7 @@ struct Sub
 
     template<int Wrt>
     using Derivative = Sub<typename L::template Derivative<Wrt>,
-    typename R::template Derrivative<Wrt>>;
+    typename R::template Derivative<Wrt>>;
 };
 
 template <typename L, typename R>

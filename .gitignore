@@ -144,3 +144,5 @@ ipch/
 
 # Visual Studio Trace Files
 *.e2e
+
+jacobian_demo.cpp
