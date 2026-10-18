@@ -8,17 +8,13 @@ using Y = Var<1>;
 
 constexpr array<double, 2> x0 = { 3.0, 6.0 };
 
-TEST_CASE("Derivative of a square", "[derivatives]")
-{
-    using X_2 = Product<X, X>;
-    using DX_2 = X_2::Derivative<0>;
-    STATIC_REQUIRE(DX_2::eval(x0) == 6.0);
-}
-
 TEST_CASE("Derivative of a variable", "[derivatives]")
 {
-    using DY = Y::Derivative<0>;
-    STATIC_REQUIRE(DY::eval(x0) == 0);
+    using DX_dx = X::Derivative<0>;
+    using DY_dx = Y::Derivative<0>;
+
+    STATIC_REQUIRE(DX_dx::eval(x0) == 1);
+    STATIC_REQUIRE(DY_dx::eval(x0) == 0);
 }
 
 TEST_CASE("Derivative of a sum", "[derivatives]")
@@ -44,4 +40,16 @@ TEST_CASE("Derivative of a subtraction", "[derivatives]")
 
     STATIC_REQUIRE(DF_dx::eval(x0) == 6);
     STATIC_REQUIRE(DF_dy::eval(x0) == -12);
+}
+
+TEST_CASE("Derivative of a product", "[derivatives]")
+{
+    using X_2 = Product<X, X>;
+    using XY = Product<X, Y>;
+
+    using DX_2_dx = X_2::Derivative<0>;
+    using DXY_dy = XY::Derivative<1>;
+
+    STATIC_REQUIRE(DX_2_dx::eval(x0) == 6.0);
+    STATIC_REQUIRE(DXY_dy::eval(x0) == 3.0);
 }
