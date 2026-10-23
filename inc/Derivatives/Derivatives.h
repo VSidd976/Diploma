@@ -89,3 +89,23 @@ struct Cos
     template<int Wrt>
     using Derivative = std::conditional_t<Wrt == ID, Product<Const<-1.0>, Sin<ID>>, Const<0.0>>;
 };
+
+template<int ID>
+struct Exp
+{
+    template<std::size_t N>
+    static constexpr double eval(const std::array<double, N>& x) { return std::exp(x[ID]); }
+
+    template<int Wrt>
+    using Derivative = std::conditional_t<Wrt == ID, Exp<Wrt>, Const<0.0>>;
+};
+
+template<int ID>
+struct Ln
+{
+    template<std::size_t N>
+    static constexpr double eval(const std::array<double, N>& x) { return std::log(x[ID]); }
+
+    template<int Wrt>
+    using Derivative = std::conditional_t<Wrt == ID, Frac<Const<1.0>, Var<Wrt>>, Const<0.0>>;
+};
