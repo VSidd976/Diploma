@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include "Derivatives.h"
+#include <iostream>
 
 using namespace std;
 
@@ -52,4 +53,27 @@ TEST_CASE("Derivative of a product", "[derivatives]")
 
     STATIC_REQUIRE(DX_2_dx::eval(x0) == 6.0);
     STATIC_REQUIRE(DXY_dy::eval(x0) == 3.0);
+}
+
+TEST_CASE("Derivative of a sin", "[derivatives]")
+{
+    using Sin_X = Sin<0>;
+    using Sin_Y = Sin<1>;
+
+    using DSin_X_dx = Sin_X::Derivative<0>;
+    using DSin_X_dy = Sin_X::Derivative<1>;
+
+    REQUIRE(DSin_X_dx::eval(x0) == cos(3.0));
+    REQUIRE(DSin_X_dy::eval(x0) == 0);
+}
+
+TEST_CASE("Derivative of a cos", "[derivatives]")
+{
+    using Cos_X = Cos<0>;
+
+    using DCos_X_dx = Cos_X::Derivative<0>;
+    using DCos_X_dy = Cos_X::Derivative<1>;
+
+    REQUIRE(DCos_X_dx::eval(x0) == -sin(3.0));
+    REQUIRE(DCos_X_dy::eval(x0) == 0);
 }
