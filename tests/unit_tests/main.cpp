@@ -14,8 +14,8 @@ TEST_CASE("Derivative of a variable", "[derivatives]")
     using DX_dx = X::Derivative<0>;
     using DY_dx = Y::Derivative<0>;
 
-    STATIC_REQUIRE(DX_dx::eval(x0) == 1);
-    STATIC_REQUIRE(DY_dx::eval(x0) == 0);
+    STATIC_REQUIRE(DX_dx::eval(x0) == 1.0);
+    STATIC_REQUIRE(DY_dx::eval(x0) == 0.0);
 }
 
 TEST_CASE("Derivative of a sum", "[derivatives]")
@@ -26,8 +26,8 @@ TEST_CASE("Derivative of a sum", "[derivatives]")
     using DF_dx = F::Derivative<0>;
     using DF_dy = F::Derivative<1>;
 
-    STATIC_REQUIRE(DF_dx::eval(x0) == 8);
-    STATIC_REQUIRE(DF_dy::eval(x0) == 0);
+    STATIC_REQUIRE(DF_dx::eval(x0) == 8.0);
+    STATIC_REQUIRE(DF_dy::eval(x0) == 0.0);
 }
 
 TEST_CASE("Derivative of a subtraction", "[derivatives]")
@@ -39,8 +39,8 @@ TEST_CASE("Derivative of a subtraction", "[derivatives]")
     using DF_dx = F::Derivative<0>;
     using DF_dy = F::Derivative<1>;
 
-    STATIC_REQUIRE(DF_dx::eval(x0) == 6);
-    STATIC_REQUIRE(DF_dy::eval(x0) == -12);
+    STATIC_REQUIRE(DF_dx::eval(x0) == 6.0);
+    STATIC_REQUIRE(DF_dy::eval(x0) == -12.0);
 }
 
 TEST_CASE("Derivative of a product", "[derivatives]")
@@ -55,6 +55,17 @@ TEST_CASE("Derivative of a product", "[derivatives]")
     STATIC_REQUIRE(DXY_dy::eval(x0) == 3.0);
 }
 
+TEST_CASE("Derivative of a fraction", "[derivatives]")
+{
+    using F = Frac<Sub<Const<2.0>, X>, Product<X, X>>;
+
+    using DF_dx = F::Derivative<0>;
+    using DF_dy = F::Derivative<1>;
+
+    STATIC_REQUIRE(DF_dx::eval(x0) == -(1.0 / 27.0));
+    STATIC_REQUIRE(DF_dy::eval(x0) == 0.0);
+}
+
 TEST_CASE("Derivative of a sin", "[derivatives]")
 {
     using Sin_X = Sin<0>;
@@ -64,7 +75,7 @@ TEST_CASE("Derivative of a sin", "[derivatives]")
     using DSin_X_dy = Sin_X::Derivative<1>;
 
     STATIC_REQUIRE(DSin_X_dx::eval(x0) == cos(3.0));
-    STATIC_REQUIRE(DSin_X_dy::eval(x0) == 0);
+    STATIC_REQUIRE(DSin_X_dy::eval(x0) == 0.0);
 }
 
 TEST_CASE("Derivative of a cos", "[derivatives]")
@@ -75,7 +86,7 @@ TEST_CASE("Derivative of a cos", "[derivatives]")
     using DCos_X_dy = Cos_X::Derivative<1>;
 
     STATIC_REQUIRE(DCos_X_dx::eval(x0) == -sin(3.0));
-    STATIC_REQUIRE(DCos_X_dy::eval(x0) == 0);
+    STATIC_REQUIRE(DCos_X_dy::eval(x0) == 0.0);
 }
 
 TEST_CASE("Derivative of an exp", "[derivatives]")
@@ -86,16 +97,16 @@ TEST_CASE("Derivative of an exp", "[derivatives]")
     using DExp_dy = Exp::Derivative<1>;
 
     STATIC_REQUIRE(DExp_dx::eval(x0) == exp(3.0));
-    STATIC_REQUIRE(DExp_dy::eval(x0) == 0);
+    STATIC_REQUIRE(DExp_dy::eval(x0) == 0.0);
 }
 
-TEST_CASE("Derivative of a ln", "[derivatives]")
+TEST_CASE("Derivative of an ln", "[derivatives]")
 {
     using Ln = Ln<0>;
 
     using DLn_dx = Ln::Derivative<0>;
     using DLn_dy = Ln::Derivative<1>;
 
-    STATIC_REQUIRE(DLn_dx::eval(x0) == (1 / 3.0));
-    STATIC_REQUIRE(DLn_dy::eval(x0) == 0);
+    STATIC_REQUIRE(DLn_dx::eval(x0) == (1.0 / 3.0));
+    STATIC_REQUIRE(DLn_dy::eval(x0) == 0.0);
 }
